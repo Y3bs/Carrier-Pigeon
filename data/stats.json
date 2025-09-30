@@ -1,0 +1,77 @@
+{
+    "550749462381854769": {
+        "id": "550749462381854769",
+        "sold": 3,
+        "banned": 4,
+        "earnings": 2188,
+        "wallets": {
+            "vodafone": [
+                "01061997285"
+            ],
+            "instapay": [
+                "yousef_abdelrasol@instapay"
+            ],
+            "visa": [
+                {
+                    "holder name": "Lyndia Byron",
+                    "number": "4197908417571568"
+                },
+                {
+                    "holder name": "Marquis Mayoral",
+                    "number": "4114294138949353"
+                }
+            ]
+        },
+        "history": [
+            {
+                "action": "sold",
+                "price": 888,
+                "time": "2025-09-06T15:42:09.893328"
+            },
+            {
+                "action": "banned",
+                "time": "2025-09-06T15:44:50.956022"
+            },
+            {
+                "action": "sold",
+                "price": 800,
+                "time": "2025-09-08T18:14:19.749936"
+            },
+            {
+                "action": "banned",
+                "time": "2025-09-08T18:14:54.639736"
+            },
+            {
+                "action": "banned",
+                "time": "2025-09-12T15:00:05.824617"
+            },
+            {
+                "action": "sold",
+                "price": 500,
+                "time": "2025-09-15T14:48:24.429755"
+            },
+            {
+                "action": "banned",
+                "time": "2025-09-15T14:49:01.488909"
+            }
+        ]
+    },
+    "1248394137947082834": {
+        "sold": 2,
+        "banned": 0,
+        "earnings": 900,
+        "wallets": {},
+        "history": [
+            {
+                "action": "sold",
+                "price": 600,
+                "time": "2025-09-10T18:31:20.939637"
+            },
+            {
+                "action": "sold",
+                "price": 300,
+                "time": "2025-09-11T21:16:10.833474"
+            }
+        ]
+    }
+}
