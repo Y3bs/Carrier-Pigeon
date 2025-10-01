@@ -113,19 +113,7 @@ def success_rate(user_id:int):
     except Exception as e:
         print(f"Error calculating the success rate\nError: {e}")
 
-def increment_field(user_id: int, field: str, value: int):
-    """
-    Increment a numeric field by a fixed value
-    
-    Args:
-        user_id: The user's ID
-        field: The field name to increment (e.g., 'earnings', 'sold', 'banned')
-        value: The amount to add (can be negative to subtract)
-    """
-    try:
-        db.carrier.players.update_one({"id": user_id}, {"$inc": {field: value}})
-    except Exception as e:
-        print(f"Error incrementing field {field}\nError: {e}")
+
 
 
 
