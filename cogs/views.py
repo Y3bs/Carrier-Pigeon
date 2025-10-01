@@ -2,7 +2,7 @@ from nextcord import ButtonStyle,Button,Interaction
 from nextcord.ui import View,Button,Modal,TextInput,button
 from utils.stats_manager import stats_manager
 from utils.utils import EMOJIES, move_channel,get_user_id
-
+import utils.database as db
 class MarkSold(View):
     def __init__(self,guild_id):
         super().__init__(timeout=None)
@@ -80,7 +80,7 @@ class MarkSold(View):
         embed.add_field(name='روح هاتلك فريش جديد من هنا',value='<#1407766412830838795>')
         await msg.edit(embed=embed,view=None)
         await interaction.response.send_message("gg go next 😥",ephemeral=True)
-        stats_manager.log(str(uid),'banned')
+        db.log_account(uid,'banned')
 
 class Paid(View):
     def __init__(self,guild_id):
@@ -118,7 +118,7 @@ class Paid(View):
         embed.add_field(name='روح هاتلك فريش جديد من هنا',value='<#1407766412830838795>')
         await msg.edit(embed=embed,view=None)
         await interaction.response.send_message("gg go next 😥",ephemeral=True)
-        stats_manager.log(str(uid),'banned')
+        db.log_account(uid,'banned')
 
 class Money(Modal):
     def __init__(self,guild_id,msg,uid):
@@ -143,7 +143,7 @@ class Money(Modal):
 
         await self.msg.edit(content=f'<@{self.uid}>',embed=embed,view=None)
         await interaction.response.send_message('مليونير مليونير 💸',ephemeral=True)
-        stats_manager.log(str(self.uid),'sold',price)
+        db.log_account(self.uid,'sold',price)
 
 def setup(client):
     pass

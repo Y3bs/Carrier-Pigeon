@@ -4,6 +4,7 @@ from nextcord import TextInputStyle,Interaction,Embed,PermissionOverwrite
 from nextcord.ui import Modal,TextInput
 from utils.utils import EMOJIES, check_wallet_type
 from utils.stats_manager import stats_manager
+import utils.database as db
 
 class Vodafone(Modal):
     def __init__(self):
@@ -24,7 +25,7 @@ class Vodafone(Modal):
             )
             return await interaction.followup.send(embed=error,ephemeral=True)
 
-        if stats_manager.wallet_exist(interaction.user.id,'vodafone',wallet):
+        if db.wallet_exist(interaction.user.id,'vodafone',wallet):
             embed = Embed(
                 title='Wallet Already Exist',
                 description='This wallet is already registered to your account',
@@ -38,7 +39,8 @@ class Vodafone(Modal):
         )
         embed.add_field(name='Vodafone Cash Number',value=f'```{wallet}```')
         await interaction.followup.send(embed=embed,ephemeral=True)
-        stats_manager.log_wallet(interaction.user.id,'vodafone',wallet)
+        db.save_wallet(interaction.user.id,'vodafone',wallet)
+        # stats_manager.log_wallet(interaction.user.id,'vodafone',wallet)
 
 class Instapay(Modal):
     def __init__(self):
@@ -59,7 +61,7 @@ class Instapay(Modal):
             )
             return await interaction.followup.send(embed=error,ephemeral=True)
 
-        if stats_manager.wallet_exist(interaction.user.id,'instapay',wallet):
+        if db.wallet_exist(interaction.user.id,'instapay',wallet):
             embed = Embed(
                 title='Wallet Already Exist',
                 description='This wallet is already registered to your account',
@@ -73,7 +75,8 @@ class Instapay(Modal):
         )
         embed.add_field(name='Instapay ID',value=f'```{wallet}```')
         await interaction.followup.send(embed=embed,ephemeral=True)
-        stats_manager.log_wallet(interaction.user.id,'instapay',wallet)
+        db.save_wallet(interaction.user.id,'instapay',wallet)
+        # stats_manager.log_wallet(interaction.user.id,'instapay',wallet)
 
 
 class Visa(Modal):
@@ -100,7 +103,7 @@ class Visa(Modal):
             return await interaction.followup.send(embed=error,ephemeral=True)
 
         wallet.append(self.children[1].value)    
-        if stats_manager.wallet_exist(interaction.user.id,'visa',wallet):
+        if db.wallet_exist(interaction.user.id,'visa',wallet):
             embed = Embed(
                 title='Wallet Already Exist',
                 description='This wallet is already registered to your account',
@@ -115,10 +118,8 @@ class Visa(Modal):
         embed.add_field(name='Holder Name',value=f'```{wallet[1]}```')
         embed.add_field(name='Number',value=f'```{wallet[0]}```')
         await interaction.followup.send(embed=embed,ephemeral=True)
-        stats_manager.log_wallet(interaction.user.id,'visa',wallet)
-
-
-
+        db.save_wallet(interaction.user.id,'visa',wallet)
+        # stats_manager.log_wallet(interaction.user.id,'visa',wallet)
 
 def setup(client):
     pass

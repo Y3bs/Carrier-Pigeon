@@ -2,6 +2,7 @@ import nextcord
 from nextcord.ext import commands
 from nextcord import Interaction,Embed
 from utils.stats_manager import stats_manager
+import utils.database as db
 
 class Stats(commands.Cog):
     def __init__(self,client):
@@ -12,9 +13,9 @@ class Stats(commands.Cog):
         await interaction.response.defer(ephemeral=True)
         
         uid = interaction.user.id
-        user_stats = stats_manager.get_user(uid)
-        success_rate = stats_manager.success_rate(uid)
-        avg_sale = stats_manager.avg_sale(uid)
+        user_stats = db.find_player(uid)
+        success_rate = db.success_rate(uid)
+        avg_sale = db.avg_sale(uid)
 
         embed = Embed(
             description=f'# 📊 Stats for {interaction.user.mention}',
