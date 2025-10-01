@@ -2,7 +2,6 @@ import nextcord
 from nextcord.ext import commands
 from nextcord import Embed, Interaction, SelectOption
 from nextcord.ui import View,Select
-from utils.stats_manager import stats_manager
 from utils.utils import EMOJIES
 from cogs.wallet_modals import Vodafone,Instapay,Visa
 

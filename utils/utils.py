@@ -27,7 +27,8 @@ statuses = cycle([
     Activity(type=ActivityType.watching, name="📦 Orders come & go"),
     Game("⛔ Handling bans"),
     Activity(type=ActivityType.watching, name="earnings grow 💰"),
-    Activity(type=ActivityType.listening,name='Auto saving files 🗃️')
+    Activity(type=ActivityType.listening,name='Auto saving files 🗃️'),
+    Game("v4.0")
 ])
 
 async def cycle_status(client, interval=60):

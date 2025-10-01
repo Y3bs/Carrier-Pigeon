@@ -1,9 +1,6 @@
-from attr.validators import min_len
-import nextcord
-from nextcord import TextInputStyle,Interaction,Embed,PermissionOverwrite
+from nextcord import TextInputStyle,Interaction,Embed
 from nextcord.ui import Modal,TextInput
 from utils.utils import EMOJIES, check_wallet_type
-from utils.stats_manager import stats_manager
 import utils.database as db
 
 class Vodafone(Modal):
@@ -40,7 +37,6 @@ class Vodafone(Modal):
         embed.add_field(name='Vodafone Cash Number',value=f'```{wallet}```')
         await interaction.followup.send(embed=embed,ephemeral=True)
         db.save_wallet(interaction.user.id,'vodafone',wallet)
-        # stats_manager.log_wallet(interaction.user.id,'vodafone',wallet)
 
 class Instapay(Modal):
     def __init__(self):
@@ -76,7 +72,6 @@ class Instapay(Modal):
         embed.add_field(name='Instapay ID',value=f'```{wallet}```')
         await interaction.followup.send(embed=embed,ephemeral=True)
         db.save_wallet(interaction.user.id,'instapay',wallet)
-        # stats_manager.log_wallet(interaction.user.id,'instapay',wallet)
 
 
 class Visa(Modal):
@@ -119,7 +114,6 @@ class Visa(Modal):
         embed.add_field(name='Number',value=f'```{wallet[0]}```')
         await interaction.followup.send(embed=embed,ephemeral=True)
         db.save_wallet(interaction.user.id,'visa',wallet)
-        # stats_manager.log_wallet(interaction.user.id,'visa',wallet)
 
 def setup(client):
     pass

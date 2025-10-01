@@ -1,8 +1,8 @@
 from nextcord import ButtonStyle,Button,Interaction
 from nextcord.ui import View,Button,Modal,TextInput,button
-from utils.stats_manager import stats_manager
 from utils.utils import EMOJIES, move_channel,get_user_id
 import utils.database as db
+
 class MarkSold(View):
     def __init__(self,guild_id):
         super().__init__(timeout=None)
@@ -24,7 +24,7 @@ class MarkSold(View):
         title = "الكاش 💰"
         desc = 'دوس علي الزرار اللي تحت لما فلوس الاكونت توصلك'
         uid = get_user_id(msg)
-        data = stats_manager.get_user(uid)
+        data = db.find_player(uid)
         embed = await move_channel(channel,category_name,emoji,color,title,desc)
 
         visa_data = data["wallets"].get("visa", [])

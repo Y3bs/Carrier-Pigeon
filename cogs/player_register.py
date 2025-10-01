@@ -11,6 +11,8 @@ class MemberEvent(commands.Cog):
     async def register(self,interaction:Interaction):
         await interaction.response.defer(ephemeral=True)
         uid = interaction.user.id
+        if db.find_player(uid):
+            return await interaction.followup.send(f"You already exist in the database")
         db.save_player(uid)
         await interaction.followup.send(f"{interaction.user.mention} is registered in the database")
 

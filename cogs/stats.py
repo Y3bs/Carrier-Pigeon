@@ -1,7 +1,6 @@
 import nextcord
 from nextcord.ext import commands
 from nextcord import Interaction,Embed
-from utils.stats_manager import stats_manager
 import utils.database as db
 
 class Stats(commands.Cog):

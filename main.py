@@ -4,9 +4,6 @@ import os
 from cogs.logging import Logger
 from cogs.views import MarkSold,Paid
 from cogs.fresh import AccRequest
-from utils import fresh_manager
-from utils.stats_manager import StatsManager
-from utils.fresh_manager import FreshManager
 from utils.utils import cycle_status
 from dotenv import load_dotenv
 from utils.database import db
@@ -16,11 +13,9 @@ intents.messages = True
 intents.message_content = True
 intents.members = True
 client = commands.Bot(command_prefix="!", intents=intents)
+
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
-
-stats_manager = StatsManager('data/stats.json')
-fresh_manager = FreshManager()
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
@@ -28,7 +23,6 @@ for filename in os.listdir('./cogs'):
 
 @client.event
 async def on_ready():
-    # client.loop.create_task(stats_manager.auto_save())
     client.loop.create_task(cycle_status(client))
     client.add_view(Logger(None))
     client.add_view(MarkSold(None))

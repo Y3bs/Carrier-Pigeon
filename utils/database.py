@@ -12,6 +12,7 @@ def find_player(id):
         return db.carrier.players.find_one({"id":id})
     except Exception as e:
         print(f"Error Fetching player's data\nError: {e}")
+        return None
         
 
 def save_player(id):
@@ -112,6 +113,31 @@ def success_rate(user_id:int):
         return round(user['sold'] / (user['sold'] + user['banned']) * 100,2)
     except Exception as e:
         print(f"Error calculating the success rate\nError: {e}")
+
+# Account Handlers
+def save_account(user_id: int, game: str, file_content: str):
+    try:
+        doc = {
+            "game": game,
+            "available": True,
+            "content": file_content,
+            "player_id": None
+        }
+        db.carrier.accounts.insert_one(doc)
+        return True
+    except Exception as e:
+        print(f"Error saving account file\nError: {e}")
+        return False
+
+def send_fresh(user_id:int,game:str):
+    try:
+        acc = db.carrier.accounts.find_one({"game":game,"available":True},{"content":1})
+        if not acc:
+            return False
+        db.carrier.accounts.update_one({"_id": acc["_id"]},{"$set":{"available": False,"player_id":user_id}})
+        return acc["content"]
+    except Exception as e:
+        print(f"Error Sending acc details\nError: {e}")
 
 
 

@@ -1,15 +1,21 @@
 from nextcord.ext import commands
 from nextcord import Interaction,SlashOption,Attachment,Embed,slash_command
-
-from utils.fresh_manager import fresh_manager
+import utils.database as db
 
 
 class Upload(commands.Cog):
     def __init__(self,client):
         self.client = client
     
-    @slash_command(name='upload',description="Uploads the .txt file of the account to the bot's data base")
-    async def upload(self,interaction: Interaction,file:Attachment = SlashOption(
+    @slash_command(name='upload',description="Upload a .txt account file and store its content")
+    async def upload(self,interaction: Interaction,
+        game: str = SlashOption(
+            name='game',
+            description='Game type (e.g., warzone)',
+            choices=['Warzone',"Marvel Rivals"],
+            required=True
+        ),
+        file:Attachment = SlashOption(
         name='acc_file',
         description='Upload a .txt file',
         required=True
@@ -19,21 +25,18 @@ class Upload(commands.Cog):
         if not file.filename.lower().endswith('.txt'):
             return await interaction.followup.send('ارفع فايل .txt انت عايز تهكرني ؟ 😡')
         file_bytes = await file.read()
-        file_content = file_bytes.decode('utf-8')
-        file_name = fresh_manager.upload_file(file_content,'warzone')
-        if file_name:
-            embed = Embed(
-            title="✅ File uploaded!",
-            description=f"```Game: warzone\nName: {file_name}```"
-            )
+        try:
+            file_content = file_bytes.decode('utf-8')
+        except UnicodeDecodeError:
+            return await interaction.followup.send('تعذر قراءة الملف كنص UTF-8.')
+
+        ok = db.save_account(interaction.user.id, game, file_content)
+        if ok:
+            embed = Embed(title="✅ Saved", description=f"تم حفظ الحساب لِلعبة: `{game}`")
             return await interaction.followup.send(embed=embed)
         else:
-            error = Embed(
-                title='Error saving file',
-                description='Something wrong happned while saving the file',
-                color=0xE80000
-            )
-            return await interaction.followup.send(embed=error)
+            embed = Embed(title="❌ Error", description="حدث خطأ أثناء الحفظ")
+            return await interaction.followup.send(embed=embed)
 
 
 def setup(client):
