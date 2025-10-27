@@ -8,7 +8,7 @@ class Warzone(Modal):
         super().__init__(title="Account Details")
         self.guild_id = guild_id
         self.add_item(TextInput(label="Level",style=TextInputStyle.short,placeholder="حط لفل الاكونت",required=True))
-        self.add_item(TextInput(label="Ready Rank?",style=TextInputStyle.short,placeholder='حط 0 او 1 (0 معناها لا 1 معناها اه)',required=True))
+        self.add_item(TextInput(label="Ready Rank?",style=TextInputStyle.short,placeholder='حط كلمه rfr',required=True))
         self.add_item(TextInput(label="Maxed Guns",style=TextInputStyle.short,placeholder='حط عدد الاسلحة الماكس مش اسمائهم',required=True))
     async def callback(self, interaction: Interaction):
         level = self.children[0].value
@@ -20,7 +20,7 @@ class Warzone(Modal):
         if category is None:
             category = await guild.create_category("For Sale 🏷️")
 
-        rank = 'rank' if rank == '1' else 'no-rank'
+        rank = 'rfr' if rank.lower() == 'rfr' else None
         account_name = f'wz-{level}-{rank}-{guns}-max'
 
         user = interaction.user
