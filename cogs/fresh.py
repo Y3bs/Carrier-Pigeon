@@ -55,6 +55,13 @@ class Fresh(commands.Cog):
     @slash_command(name='fresh_panel',description='Sends the panel for fresh accounts')
     async def fresh_panel(self,interaction:Interaction):
         await interaction.response.defer(ephemeral=True)
+        if not interaction.guild:
+            error = Embed(
+                title = 'Guild/Permission Error ⛔',
+                description='This command can only run in:\n> Server with Admin Permission',
+                color = 0xE80000
+            )
+            return await interaction.followup.send(embed=error , ephemeral=True)
         embed = Embed(
         title='الفريش 🧃',
         description='اختار اللعبة اللي عايز منها الفريش'

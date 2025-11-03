@@ -40,6 +40,14 @@ class Logging(commands.Cog):
     @nextcord.slash_command(name='log_panel',description="sends the panel message for logging accounts")
     async def log_panel(self,interaction: Interaction):
         await interaction.response.defer(ephemeral=True)
+        if not interaction.guild:
+            error = Embed(
+                title = 'Guild Error ⛔',
+                description='This command can only run in:\n> Server with Admin Permission',
+                color = 0xE80000
+            )
+            return await interaction.followup.send(embed=error , ephemeral=True)
+
         if not interaction.user.guild_permissions.administrator:
             error = Embed(
                 title='Permissions Error ⛔',
@@ -47,9 +55,10 @@ class Logging(commands.Cog):
                 color=0xE80000
             )
             return await interaction.followup.send(embed=error,ephemeral=True)
+
         channel = interaction.channel
         embed = Embed(
-        title ="سجل اكونتك",
+        title ="سجل اكونتك 🗃",
         description="دوس علي الزرار اللي تحت عشان تسجل اكونتك الخلصان",
         )
         await channel.send(embed=embed,view=Logger(interaction.guild.id))

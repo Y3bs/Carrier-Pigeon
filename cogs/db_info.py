@@ -8,14 +8,22 @@ class Info(commands.Cog):
         self.client = client
     
     @slash_command(name='db_info',description='displays a brief info about the accounts database')
-    async def info(self,interaction: Interaction):
+    async def info(self,interaction: Interaction):   
         await interaction.response.defer(ephemeral=True)
+
+        if not interaction.guild or interaction.user.guild_permissions.administrator:
+            error = Embed(
+                title = 'Guild/Permission Error ⛔',
+                description='This command can only run in:\n> Server with Admin Permission',
+                color = 0xE80000
+            )
+            return await interaction.followup.send(embed=error , ephemeral=True)
 
         available_count = db.db.carrier.accounts.count_documents({"available": True})
         taken_count = db.db.carrier.accounts.count_documents({"available": False})
         total_count = available_count + taken_count
-
         total_bytes = 0
+
         try:
             for doc in db.db.carrier.accounts.find({}, {"content": 1}):
                 content = doc.get("content", "")

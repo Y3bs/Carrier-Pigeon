@@ -21,6 +21,13 @@ class Upload(commands.Cog):
         required=True
     )):
         await interaction.response.defer(ephemeral=True)
+        if not interaction.guild or interaction.user.guild_permissions.administrator:
+            error = Embed(
+                title = 'Guild/Permission Error ⛔',
+                description='This command can only run in:\n> Server with Admin Permission',
+                color = 0xE80000
+            )
+            return await interaction.followup.send(embed=error , ephemeral=True)
 
         if not file.filename.lower().endswith('.txt'):
             return await interaction.followup.send('ارفع فايل .txt انت عايز تهكرني ؟ 😡')
