@@ -1,7 +1,6 @@
-from enum import member
 from nextcord.ext import commands
 import utils.database as db
-from nextcord import  Interaction, Member,slash_command,Embed
+from nextcord import  Interaction, slash_command, Embed
 
 class MemberEvent(commands.Cog):
     def __init__(self,client):
@@ -22,16 +21,6 @@ class MemberEvent(commands.Cog):
             return await interaction.followup.send(f"You already exist in the database")
         db.save_player(uid)
         await interaction.followup.send(f"{interaction.user.mention} is registered in the database")
-
-    @commands.Cog.listener()
-    async def on_member_join(self, member: Member):
-        uid = member.id
-        db.save_player(uid)
-    
-    @commands.Cog.listener()
-    async def on_member_remove(self,member: Member):
-        uid = member.id
-        db.delete_player(uid)
 
 def setup(client):
     client.add_cog(MemberEvent(client))

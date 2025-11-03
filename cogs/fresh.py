@@ -23,7 +23,7 @@ class AccRequestDropDown(Select):
     async def callback(self,interaction: Interaction):
         game = self.values[0]
         await interaction.response.defer(ephemeral=True)
-        content = db.send_fresh(interaction.user.id,game)
+        content = db.send_fresh(interaction.user.id, game, self.guild_id)
         if not content:
             error = Embed(
                     title = 'No Fresh 🪹',

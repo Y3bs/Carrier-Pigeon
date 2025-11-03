@@ -25,6 +25,8 @@ class MarkSold(View):
         desc = 'دوس علي الزرار اللي تحت لما فلوس الاكونت توصلك'
         uid = get_user_id(msg)
         data = db.find_player(uid)
+        if not data:
+            return await interaction.response.send_message("❌ User not registered in database", ephemeral=True)
         embed = await move_channel(channel,category_name,emoji,color,title,desc)
 
         visa_data = data["wallets"].get("visa", [])
@@ -74,10 +76,9 @@ class MarkSold(View):
         emoji = "⛔"
         color = 0xE80000
         title = "Banned ⛔"
-        desc = 'الاكونت اتبند ! ربنا يعوض عليك يا برو شوفلك واحد غيره من الجدع ده <@1323294683203375234>'
+        desc = 'الاكونت اتبند ! ربنا يعوض عليك يا برو'
         uid = get_user_id(msg)
         embed = await move_channel(channel,category_name,emoji,color,title,desc)
-        embed.add_field(name='روح هاتلك فريش جديد من هنا',value='<#1407766412830838795>')
         await msg.edit(embed=embed,view=None)
         await interaction.response.send_message("gg go next 😥",ephemeral=True)
         db.log_account(uid,'banned')
@@ -112,10 +113,9 @@ class Paid(View):
         emoji = "⛔"
         color = 0xE80000
         title = "Banned ⛔"
-        desc = 'الاكونت اتبند ! ربنا يعوض عليك يا برو شوفلك واحد غيره من الجدع ده <@1323294683203375234>'
+        desc = 'الاكونت اتبند ! ربنا يعوض عليك يا برو'
         uid = get_user_id(msg)
         embed = await move_channel(channel,category_name,emoji,color,title,desc)
-        embed.add_field(name='روح هاتلك فريش جديد من هنا',value='<#1407766412830838795>')
         await msg.edit(embed=embed,view=None)
         await interaction.response.send_message("gg go next 😥",ephemeral=True)
         db.log_account(uid,'banned')

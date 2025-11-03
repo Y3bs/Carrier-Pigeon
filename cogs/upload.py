@@ -21,7 +21,7 @@ class Upload(commands.Cog):
         required=True
     )):
         await interaction.response.defer(ephemeral=True)
-        if not interaction.guild or interaction.user.guild_permissions.administrator:
+        if not interaction.guild or not interaction.user.guild_permissions.administrator:
             error = Embed(
                 title = 'Guild/Permission Error ⛔',
                 description='This command can only run in:\n> Server with Admin Permission',
@@ -37,7 +37,7 @@ class Upload(commands.Cog):
         except UnicodeDecodeError:
             return await interaction.followup.send('تعذر قراءة الملف كنص UTF-8.')
 
-        ok = db.save_account(interaction.user.id, game, file_content)
+        ok = db.save_account(interaction.user.id, game, file_content, interaction.guild.id)
         if ok:
             embed = Embed(title="✅ Saved", description=f"تم حفظ الحساب لِلعبة: `{game}`")
             return await interaction.followup.send(embed=embed)

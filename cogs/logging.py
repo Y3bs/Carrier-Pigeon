@@ -1,5 +1,3 @@
-from code import interact
-from socket import timeout
 import nextcord
 from nextcord.ext import commands
 from nextcord.ui import View,Select

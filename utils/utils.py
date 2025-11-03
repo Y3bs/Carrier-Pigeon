@@ -1,4 +1,3 @@
-import enum
 import nextcord 
 from nextcord import Embed,Activity,Game,ActivityType,Message
 from itertools import cycle 

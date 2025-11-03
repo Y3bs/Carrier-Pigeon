@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
-from datetime import date, datetime,timedelta
+from datetime import datetime
 
 load_dotenv()
 DB_TOKEN = os.getenv('DB_TOKEN')
@@ -115,13 +115,14 @@ def success_rate(user_id:int):
         print(f"Error calculating the success rate\nError: {e}")
 
 # Account Handlers
-def save_account(user_id: int, game: str, file_content: str):
+def save_account(user_id: int, game: str, file_content: str, guild_id: int):
     try:
         doc = {
             "game": game,
             "available": True,
             "content": file_content,
-            "player_id": None
+            "player_id": None,
+            "guild_id": guild_id
         }
         db.carrier.accounts.insert_one(doc)
         return True
@@ -129,9 +130,9 @@ def save_account(user_id: int, game: str, file_content: str):
         print(f"Error saving account file\nError: {e}")
         return False
 
-def send_fresh(user_id:int,game:str):
+def send_fresh(user_id:int, game:str, guild_id:int):
     try:
-        acc = db.carrier.accounts.find_one({"game":game,"available":True},{"content":1})
+        acc = db.carrier.accounts.find_one({"game":game,"available":True,"guild_id":guild_id},{"content":1})
         if not acc:
             return False
         db.carrier.accounts.update_one({"_id": acc["_id"]},{"$set":{"available": False,"player_id":user_id}})

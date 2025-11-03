@@ -43,6 +43,12 @@ class Stats(commands.Cog):
         
         uid = interaction.user.id
         user_stats = db.find_player(uid)
+        if not user_stats:
+            return await interaction.followup.send("❌ You are not registered in the database. Use `/register` first.", ephemeral=True)
+        
+        if not user_stats.get('history'):
+            return await interaction.followup.send("📊 You don't have any account history yet!", ephemeral=True)
+        
         user_df = pd.DataFrame(user_stats['history'])
         img, path = plot_stats(interaction,user_df)
         stats_plot = File(img,filename = 'stats.png')

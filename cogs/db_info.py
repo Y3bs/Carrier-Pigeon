@@ -11,7 +11,7 @@ class Info(commands.Cog):
     async def info(self,interaction: Interaction):   
         await interaction.response.defer(ephemeral=True)
 
-        if not interaction.guild or interaction.user.guild_permissions.administrator:
+        if not interaction.guild or not interaction.user.guild_permissions.administrator:
             error = Embed(
                 title = 'Guild/Permission Error ⛔',
                 description='This command can only run in:\n> Server with Admin Permission',
@@ -19,13 +19,14 @@ class Info(commands.Cog):
             )
             return await interaction.followup.send(embed=error , ephemeral=True)
 
-        available_count = db.db.carrier.accounts.count_documents({"available": True})
-        taken_count = db.db.carrier.accounts.count_documents({"available": False})
+        guild_id = interaction.guild.id
+        available_count = db.db.carrier.accounts.count_documents({"available": True, "guild_id": guild_id})
+        taken_count = db.db.carrier.accounts.count_documents({"available": False, "guild_id": guild_id})
         total_count = available_count + taken_count
         total_bytes = 0
 
         try:
-            for doc in db.db.carrier.accounts.find({}, {"content": 1}):
+            for doc in db.db.carrier.accounts.find({"guild_id": guild_id}, {"content": 1}):
                 content = doc.get("content", "")
                 if isinstance(content, str):
                     total_bytes += len(content.encode('utf-8'))
